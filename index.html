@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vansh Oberoi - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    
+    <script>
+    if (localStorage.getItem('color-theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('color-theme', 'light'); // Set default explicitly
+    }
+    </script>
+
+    <style>
+        .bg-pattern-dots {
+            background-image: radial-gradient(circle at 1px 1px, #334155 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+        .dark .bg-pattern-dots {
+            background-image: radial-gradient(circle at 1px 1px, #94a3b8 1px, transparent 0);
+        }
+        .bg-pattern-dots-light {
+            background-image: radial-gradient(circle at 1px 1px, #ffffff 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(2rem);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        textarea::-webkit-scrollbar { width: 8px; }
+        textarea::-webkit-scrollbar-track { background: #f1f5f9; }
+        .dark textarea::-webkit-scrollbar-track { background: #1e293b; }
+        textarea::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .dark textarea::-webkit-scrollbar-thumb { background: #475569; }
+    </style>
+</head>
+<body class="font-sans antialiased text-slate-900 bg-white dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
+
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent">
+        <div id="scroll-progress" class="absolute bottom-0 left-0 h-[2px] bg-blue-800/80 dark:bg-blue-500/80 transition-all duration-150 ease-out" style="width: 0%"></div>
+
+        <div class="max-w-5xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="#" onclick="window.scrollTo({ top: 0, behavior: 'smooth' }); return false;" class="font-serif text-lg font-semibold text-slate-900 dark:text-white tracking-tight hover:text-blue-800 dark:hover:text-blue-400 transition-colors duration-200">
+                    Vansh Oberoi
+                </a>
+
+                <div class="hidden md:flex items-center">
+                    <nav class="flex items-center gap-1">
+                        <a href="#about" class="nav-link px-3 py-2 text-sm transition-colors duration-200 rounded-md text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50">About</a>
+                        <a href="#awards" class="nav-link px-3 py-2 text-sm transition-colors duration-200 rounded-md text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50">Awards</a>
+                        <a href="#research" class="nav-link px-3 py-2 text-sm transition-colors duration-200 rounded-md text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50">Research</a>
+                        <a href="#patents" class="nav-link px-3 py-2 text-sm transition-colors duration-200 rounded-md text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50">Patents</a>
+                        <a href="#publications" class="nav-link px-3 py-2 text-sm transition-colors duration-200 rounded-md text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50">Publications</a>
+                        <a href="#contact" class="nav-link px-3 py-2 text-sm transition-colors duration-200 rounded-md text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50">Contact</a>
+                        
+                        <a href="/resume.pdf" download="Vansh_Oberoi_Resume.pdf" class="ml-2 px-3 py-1.5 text-sm font-medium transition-colors duration-200 rounded-md text-blue-800 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 border border-blue-200/60 dark:border-blue-800/50 flex items-center gap-1.5">
+                            Resume <i data-lucide="download" class="h-3.5 w-3.5"></i>
+                        </a>
+                    </nav>
+
+                    <button id="theme-toggle" type="button" class="ml-4 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-sm p-2 transition-colors">
+                        <i data-lucide="moon" id="theme-toggle-dark-icon" class="hidden h-5 w-5"></i>
+                        <i data-lucide="sun" id="theme-toggle-light-icon" class="hidden h-5 w-5"></i>
+                    </button>
+                </div>
+
+                <div class="md:hidden flex items-center gap-2">
+                    <button id="theme-toggle-mobile" type="button" class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-sm p-2 transition-colors">
+                        <i data-lucide="moon" id="theme-toggle-dark-icon-mobile" class="hidden h-5 w-5"></i>
+                        <i data-lucide="sun" id="theme-toggle-light-icon-mobile" class="hidden h-5 w-5"></i>
+                    </button>
+                    
+                    <button id="mobile-menu-btn" class="text-slate-700 dark:text-slate-300 p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors">
+                        <i data-lucide="menu" id="menu-icon" class="h-5 w-5"></i>
+                        <i data-lucide="x" id="close-icon" class="h-5 w-5 hidden"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="mobile-menu" class="hidden md:hidden pb-4 border-t border-slate-100 dark:border-slate-800 mt-1 animate-fadeIn bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm absolute left-0 right-0 px-6 shadow-md rounded-b-lg">
+                <nav class="flex flex-col gap-1 pt-3">
+                    <a href="#about" class="mobile-nav-link px-3 py-2.5 text-sm rounded-md transition-colors duration-200 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50">About</a>
+                    <a href="#awards" class="mobile-nav-link px-3 py-2.5 text-sm rounded-md transition-colors duration-200 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50">Awards</a>
+                    <a href="#research" class="mobile-nav-link px-3 py-2.5 text-sm rounded-md transition-colors duration-200 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50">Research</a>
+                    <a href="#patents" class="mobile-nav-link px-3 py-2.5 text-sm rounded-md transition-colors duration-200 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50">Patents</a>
+                    <a href="#publications" class="mobile-nav-link px-3 py-2.5 text-sm rounded-md transition-colors duration-200 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50">Publications</a>
+                    <a href="#contact" class="mobile-nav-link px-3 py-2.5 text-sm rounded-md transition-colors duration-200 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50">Contact</a>
+                    
+                    <a href="/resume.pdf" download="Vansh_Oberoi_Resume.pdf" class="flex items-center justify-between px-3 py-2.5 text-sm rounded-md transition-colors duration-200 text-blue-800 dark:text-blue-400 font-medium bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 dark:hover:bg-blue-900/50 mt-1">
+                        Download CV <i data-lucide="download" class="h-4 w-4"></i>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="min-h-[90vh] flex items-center pt-16 bg-white dark:bg-slate-900 relative overflow-hidden transition-colors duration-300">
+            <div class="absolute inset-0 opacity-[0.02] dark:opacity-5 bg-pattern-dots"></div>
+            <div class="max-w-5xl mx-auto px-6 lg:px-8 w-full relative">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6 fade-in-up">
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-[2px] bg-blue-800 dark:bg-blue-500 rounded-full"></div>
+                                <p class="text-sm font-medium text-blue-800 dark:text-blue-400 tracking-wide uppercase">
+                                    Artificial Intelligence · Machine Learning · Security
+                                </p>
+                            </div>
+                            <h1 class="font-serif text-4xl sm:text-5xl lg:text-[3.25rem] font-bold text-slate-900 dark:text-white leading-tight tracking-tight">
+                                Building the future of discovery
+                            </h1>
+                        </div>
+                        <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed max-w-xl">
+                            I'm <b>Vansh Oberoi</b> — a <b>Software Developer Intern</b> at <b>Paytm</b> and a Computer Science <b>researcher</b> aiming to apply <b>artificial intelligence</b> across domains to develop solutions that <b>address societal needs</b>.
+                        </p>
+                        
+                        <div class="flex flex-wrap items-center gap-3 pt-2">
+                            <a href="mailto:vanshoberoi2211@gmail.com" class="inline-flex items-center gap-2 px-4 py-2 text-sm text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-white dark:hover:bg-slate-700 hover:text-blue-800 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-500 hover:shadow-sm transition-all duration-250">
+                                <i data-lucide="mail" class="h-4 w-4"></i> Email
+                            </a>
+                            <a href="https://www.linkedin.com/in/oberoi-vansh/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 text-sm text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-white dark:hover:bg-slate-700 hover:text-blue-800 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-500 hover:shadow-sm transition-all duration-250">
+                                <i data-lucide="linkedin" class="h-4 w-4"></i> LinkedIn
+                            </a>
+                            <a href="https://scholar.google.com/citations?user=4j_DlmwAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 text-sm text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-white dark:hover:bg-slate-700 hover:text-blue-800 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-500 hover:shadow-sm transition-all duration-250">
+                                <i data-lucide="graduation-cap" class="h-4 w-4"></i> Google Scholar
+                            </a>
+                            <a href="https://ieeexplore.ieee.org/author/192288351856711" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 text-sm text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-white dark:hover:bg-slate-700 hover:text-blue-800 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-500 hover:shadow-sm transition-all duration-250">
+                                <i data-lucide="book-open" class="h-4 w-4"></i> IEEE Author
+                            </a>
+                        </div>
+
+                        <div class="pt-4">
+                            <a href="#contact" class="inline-flex items-center justify-center bg-slate-900 dark:bg-blue-600 text-white hover:bg-slate-800 dark:hover:bg-blue-700 rounded-lg px-6 h-11 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-250">
+                                Get in Touch
+                                <i data-lucide="arrow-down" class="ml-1 h-4 w-4"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 flex justify-center lg:justify-end fade-in-up" style="transition-delay: 200ms;">
+                        <div class="relative group">
+                            <div class="w-64 h-64 sm:w-72 sm:h-72 rounded-2xl overflow-hidden border-2 border-slate-200 dark:border-slate-700 shadow-lg group-hover:shadow-xl group-hover:border-slate-300 dark:group-hover:border-slate-500 transition-all duration-500 bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                                <img src="https://vanshoberoii.github.io/vanshoberoi/your_photo.png" alt="Vansh Oberoi" class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out" onerror="this.style.display='none'; this.parentElement.innerHTML='<span class=\'font-serif text-5xl font-bold text-slate-400 dark:text-slate-500\'>VO</span>';" />
+                            </div>
+                            <div class="absolute -bottom-3 -right-3 w-20 h-20 bg-blue-800/5 dark:bg-blue-500/10 rounded-xl -z-10 group-hover:bg-blue-800/10 dark:group-hover:bg-blue-500/20 transition-colors duration-500"></div>
+                            <div class="absolute -top-3 -left-3 w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-xl -z-10 transition-colors duration-300"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-12 bg-slate-900 dark:bg-slate-950 relative overflow-hidden transition-colors duration-300">
+            <div class="absolute inset-0 opacity-5 bg-pattern-dots-light"></div>
+            <div class="max-w-5xl mx-auto px-6 lg:px-8 relative">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="text-center space-y-2 fade-in-up" style="transition-delay: 0ms;">
+                        <div class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-white/10 mb-1">
+                            <i data-lucide="file-text" class="h-5 w-5 text-blue-300 dark:text-blue-400"></i>
+                        </div>
+                        <p class="text-3xl font-bold text-white font-serif">3</p>
+                        <p class="text-sm text-slate-400 font-medium">Publications</p>
+                    </div>
+                    <div class="text-center space-y-2 fade-in-up" style="transition-delay: 100ms;">
+                        <div class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-white/10 mb-1">
+                            <i data-lucide="award" class="h-5 w-5 text-blue-300 dark:text-blue-400"></i>
+                        </div>
+                        <p class="text-3xl font-bold text-white font-serif">1</p>
+                        <p class="text-sm text-slate-400 font-medium">Published Patents</p>
+                    </div>
+                    <div class="text-center space-y-2 fade-in-up" style="transition-delay: 200ms;">
+                        <div class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-white/10 mb-1">
+                            <i data-lucide="microscope" class="h-5 w-5 text-blue-300 dark:text-blue-400"></i>
+                        </div>
+                        <p class="text-3xl font-bold text-white font-serif">4</p>
+                        <p class="text-sm text-slate-400 font-medium">Research Areas</p>
+                    </div>
+                    <div class="text-center space-y-2 fade-in-up" style="transition-delay: 300ms;">
+                        <div class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-white/10 mb-1">
+                            <i data-lucide="users" class="h-5 w-5 text-blue-300 dark:text-blue-400"></i>
+                        </div>
+                        <p class="text-3xl font-bold text-white font-serif">1</p>
+                        <p class="text-sm text-slate-400 font-medium">Conferences</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 bg-slate-50/70 dark:bg-slate-800/30 pt-28 -mt-8 transition-colors duration-300"> 
+            <div class="max-w-5xl mx-auto px-6 lg:px-8">
+                <div class="fade-in-up">
+                    <h2 class="font-serif text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">About Me</h2>
+                    <div class="w-12 h-0.5 bg-blue-800 dark:bg-blue-500 mb-10 rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                    <div class="lg:col-span-2 space-y-5 fade-in-up" style="transition-delay: 100ms;">
+                        <div class="space-y-4 text-slate-600 dark:text-slate-300 text-base leading-relaxed">
+                            <p><b>Computer Science</b> graduate from <b>Vellore Institute of Technology (VIT)</b>, Vellore, India.</p>
+                            <p>Published a patent in the domain of computer science, and has published <b>three research articles</b> in international <b>conferences</b> and <b>journals</b>.</p>
+                            <p>Strong interest in <b>Artificial Intelligence</b> and <b>Machine Learning</b>, particularly in applying research-driven solutions to <b>real-world challenges</b>.</p>
+                        </div>
+
+                        <div class="pt-4 fade-in-up" style="transition-delay: 200ms;">
+                            <h3 class="text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider mb-3">Technical Skills</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/40 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 cursor-default px-3 py-1 rounded-full">Python</span>
+                                <span class="text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/40 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 cursor-default px-3 py-1 rounded-full">C++</span>
+                                <span class="text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/40 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 cursor-default px-3 py-1 rounded-full">Matlab</span>
+                                <span class="text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/40 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 cursor-default px-3 py-1 rounded-full">NumPy</span>
+                                <span class="text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/40 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 cursor-default px-3 py-1 rounded-full">Pandas</span>
+                                <span class="text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/40 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 cursor-default px-3 py-1 rounded-full">Scikit-learn</span>
+                                <span class="text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/40 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 cursor-default px-3 py-1 rounded-full">TensorFlow</span>
+                                <span class="text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/40 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 cursor-default px-3 py-1 rounded-full">Matplotlib</span>
+                                <span class="text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/40 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 cursor-default px-3 py-1 rounded-full">AWS Cloud</span>
+                                <span class="text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/40 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 cursor-default px-3 py-1 rounded-full">Kali Linux</span>
+                                <span class="text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/40 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 cursor-default px-3 py-1 rounded-full">WireShark</span>
+                                <span class="text-xs font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-900/40 hover:text-blue-800 dark:hover:text-blue-300 transition-colors duration-200 cursor-default px-3 py-1 rounded-full">Overleaf</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm rounded-xl p-5 space-y-4 fade-in-up" style="transition-delay: 150ms;">
+                            <h3 class="text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                                <i data-lucide="briefcase" class="h-4 w-4 text-blue-800 dark:text-blue-400"></i> Experience
+                            </h3>
+                            <div class="space-y-1">
+                                <p class="text-sm font-semibold text-slate-900 dark:text-white">Software Developer Intern</p>
+                                <p class="text-sm text-blue-800 dark:text-blue-400 font-medium"><a href="https://paytm.com/" target="_blank" rel="noopener noreferrer">Paytm</a></p>
+                                <div class="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+                                    <i data-lucide="calendar" class="h-3 w-3"></i> 2025 - Present
+                                </div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed pt-1">Building scalable solutions while pursuing research in AI and security</p>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm rounded-xl p-5 space-y-4 fade-in-up" style="transition-delay: 250ms;">
+                            <h3 class="text-sm font-semibold text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+                                <i data-lucide="graduation-cap" class="h-4 w-4 text-blue-800 dark:text-blue-400"></i> Education
+                            </h3>
+                            <div class="space-y-1">
+                                <p class="text-sm font-semibold text-slate-900 dark:text-white">B.Tech, Computer Science and Engineering</p>
+                                <p class="text-sm text-blue-800 dark:text-blue-400 font-medium"><a href="https://vit.ac.in/" target="_blank" rel="noopener noreferrer">Vellore Institute of Technology, Vellore</a></p>
+                                <div class="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
+                                    <span class="flex items-center gap-1"><i data-lucide="map-pin" class="h-3 w-3"></i> Vellore, Tamil Nadu, India</span>
+                                    <span class="flex items-center gap-1"><i data-lucide="calendar" class="h-3 w-3"></i> 2021 - 2025</span>
+                                </div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed pt-1">GPA 8.46/10.00</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="awards" class="py-20 bg-white dark:bg-slate-900 pt-28 -mt-8 transition-colors duration-300">
+            <div class="max-w-5xl mx-auto px-6 lg:px-8">
+                <div class="fade-in-up">
+                    <h2 class="font-serif text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">Grants & Awards</h2>
+                    <div class="w-12 h-0.5 bg-blue-800 dark:bg-blue-500 mb-10 rounded-full"></div>
+                </div>
+                <div class="space-y-5">
+                    
+                    <div class="border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-xl p-6 hover:shadow-lg hover:border-purple-200/50 dark:hover:border-purple-500/50 transition-all duration-400 group fade-in-up" style="transition-delay: 0ms;">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-purple-50 dark:bg-purple-900/30 border border-purple-200/60 dark:border-purple-800/50 flex items-center justify-center group-hover:bg-purple-800 dark:group-hover:bg-purple-600 transition-all duration-400">
+                                <i data-lucide="trophy" class="h-5 w-5 text-purple-700 dark:text-purple-400 group-hover:text-white transition-colors duration-400"></i>
+                            </div>
+                            <div class="flex-1 space-y-2.5">
+                                <h3 class="text-base font-semibold text-slate-900 dark:text-white leading-snug group-hover:text-purple-900 dark:group-hover:text-purple-300 transition-colors duration-300">Inventor Incentive Award</h3>
+                                <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                                    <span class="text-sm text-slate-600 dark:text-slate-400">Vellore Institute of Technology, Vellore</span>
+                                    <span class="text-slate-300 dark:text-slate-600">|</span>
+                                    <span class="inline-flex items-center rounded-full border border-purple-200/60 dark:border-purple-800/60 bg-purple-50 dark:bg-purple-900/30 px-2.5 py-0.5 text-xs font-semibold text-purple-800 dark:text-purple-300">2026</span>
+                                </div>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed pt-1">
+                                    Received ~INR 20,000 by the university to publish a patent titled "Centralized Card Management System with Two-Step UPI Authentication".
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-xl p-6 hover:shadow-lg hover:border-purple-200/50 dark:hover:border-purple-500/50 transition-all duration-400 group fade-in-up" style="transition-delay: 100ms;">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-purple-50 dark:bg-purple-900/30 border border-purple-200/60 dark:border-purple-800/50 flex items-center justify-center group-hover:bg-purple-800 dark:group-hover:bg-purple-600 transition-all duration-400">
+                                <i data-lucide="trophy" class="h-5 w-5 text-purple-700 dark:text-purple-400 group-hover:text-white transition-colors duration-400"></i>
+                            </div>
+                            <div class="flex-1 space-y-2.5">
+                                <h3 class="text-base font-semibold text-slate-900 dark:text-white leading-snug group-hover:text-purple-900 dark:group-hover:text-purple-300 transition-colors duration-300">Research Grant</h3>
+                                <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                                    <span class="text-sm text-slate-600 dark:text-slate-400">Vellore Institute of Technology, Vellore</span>
+                                    <span class="text-slate-300 dark:text-slate-600">|</span>
+                                    <span class="inline-flex items-center rounded-full border border-purple-200/60 dark:border-purple-800/60 bg-purple-50 dark:bg-purple-900/30 px-2.5 py-0.5 text-xs font-semibold text-purple-800 dark:text-purple-300">2025</span>
+                                </div>
+                                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed pt-1">
+                                    Received ~USD 5,000 grant by the university to publish research in open-access journals including IEEE Access and Elsevier: Results in Engineering.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="research" class="py-20 bg-slate-50/70 dark:bg-slate-800/30 pt-28 -mt-8 transition-colors duration-300">
+            <div class="max-w-5xl mx-auto px-6 lg:px-8">
+                <div class="fade-in-up">
+                    <h2 class="font-serif text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">Current Research Focus</h2>
+                    <div class="w-12 h-0.5 bg-blue-800 dark:bg-blue-500 mb-10 rounded-full"></div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div class="group border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-200/60 dark:hover:border-blue-500/50 hover:shadow-lg transition-all duration-400 bg-white dark:bg-slate-800 p-6 cursor-default fade-in-up" style="transition-delay: 0ms;">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 flex items-center justify-center group-hover:bg-blue-800 dark:group-hover:bg-blue-600 group-hover:border-blue-800 dark:group-hover:border-blue-600 transition-all duration-400">
+                                <i data-lucide="brain" class="h-5 w-5 text-slate-500 dark:text-slate-400 group-hover:text-white transition-colors duration-400"></i>
+                            </div>
+                            <div><h3 class="text-base font-semibold text-slate-900 dark:text-white mt-2.5">Artificial Intelligence</h3></div>
+                        </div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed pl-[3.75rem]">AI-driven solutions across domains for real-world applications</p>
+                    </div>
+                    
+                    <div class="group border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-200/60 dark:hover:border-blue-500/50 hover:shadow-lg transition-all duration-400 bg-white dark:bg-slate-800 p-6 cursor-default fade-in-up" style="transition-delay: 100ms;">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 flex items-center justify-center group-hover:bg-blue-800 dark:group-hover:bg-blue-600 group-hover:border-blue-800 dark:group-hover:border-blue-600 transition-all duration-400">
+                                <i data-lucide="line-chart" class="h-5 w-5 text-slate-500 dark:text-slate-400 group-hover:text-white transition-colors duration-400"></i>
+                            </div>
+                            <div><h3 class="text-base font-semibold text-slate-900 dark:text-white mt-2.5">Machine Learning</h3></div>
+                        </div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed pl-[3.75rem]">Improving accuracy and robustness of learning algorithms</p>
+                    </div>
+
+                    <div class="group border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-200/60 dark:hover:border-blue-500/50 hover:shadow-lg transition-all duration-400 bg-white dark:bg-slate-800 p-6 cursor-default fade-in-up" style="transition-delay: 200ms;">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 flex items-center justify-center group-hover:bg-blue-800 dark:group-hover:bg-blue-600 group-hover:border-blue-800 dark:group-hover:border-blue-600 transition-all duration-400">
+                                <i data-lucide="lock" class="h-5 w-5 text-slate-500 dark:text-slate-400 group-hover:text-white transition-colors duration-400"></i>
+                            </div>
+                            <div><h3 class="text-base font-semibold text-slate-900 dark:text-white mt-2.5">Cryptography</h3></div>
+                        </div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed pl-[3.75rem]">Strengthening encryption through enhanced unpredictability</p>
+                    </div>
+
+                    <div class="group border border-slate-200 dark:border-slate-700 rounded-xl hover:border-blue-200/60 dark:hover:border-blue-500/50 hover:shadow-lg transition-all duration-400 bg-white dark:bg-slate-800 p-6 cursor-default fade-in-up" style="transition-delay: 300ms;">
+                        <div class="flex items-start gap-4 mb-3">
+                            <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 flex items-center justify-center group-hover:bg-blue-800 dark:group-hover:bg-blue-600 group-hover:border-blue-800 dark:group-hover:border-blue-600 transition-all duration-400">
+                                <i data-lucide="shield" class="h-5 w-5 text-slate-500 dark:text-slate-400 group-hover:text-white transition-colors duration-400"></i>
+                            </div>
+                            <div><h3 class="text-base font-semibold text-slate-900 dark:text-white mt-2.5">Cybersecurity</h3></div>
+                        </div>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed pl-[3.75rem]">Vulnerability analysis and intrusion detection</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="patents" class="py-20 bg-white dark:bg-slate-900 pt-28 -mt-8 transition-colors duration-300">
+            <div class="max-w-5xl mx-auto px-6 lg:px-8">
+                <div class="fade-in-up">
+                    <h2 class="font-serif text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">Patents</h2>
+                    <div class="w-12 h-0.5 bg-blue-800 dark:bg-blue-500 mb-10 rounded-full"></div>
+                </div>
+                <div class="space-y-5">
+                    <div class="border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-xl p-6 hover:shadow-lg hover:border-amber-200/40 dark:hover:border-amber-500/40 transition-all duration-400 fade-in-up" style="transition-delay: 100ms;">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-amber-50 dark:bg-amber-900/30 border border-amber-200/60 dark:border-amber-800/50 flex items-center justify-center">
+                                <i data-lucide="award" class="h-5 w-5 text-amber-700 dark:text-amber-500"></i>
+                            </div>
+                            <div class="space-y-2.5">
+                                <h3 class="text-base font-semibold text-slate-900 dark:text-white leading-snug">Centralized Card Management System with Two-Step UPI Authentication</h3>
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <span class="inline-flex items-center rounded-full border border-amber-200/60 dark:border-amber-800/60 bg-amber-50 dark:bg-amber-900/30 px-2.5 py-0.5 text-xs font-semibold text-amber-800 dark:text-amber-400">
+                                        Patent published – 2026
+                                    </span>
+                                    <span class="text-xs font-medium text-slate-600 dark:text-slate-400">Application No: 20254XXXXXXX</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="publications" class="py-20 bg-slate-50/70 dark:bg-slate-800/30 pt-28 -mt-8 transition-colors duration-300">
+            <div class="max-w-5xl mx-auto px-6 lg:px-8">
+                <div class="fade-in-up">
+                    <h2 class="font-serif text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">Publications</h2>
+                    <div class="w-12 h-0.5 bg-blue-800 dark:bg-blue-500 mb-10 rounded-full"></div>
+                </div>
+                <div class="space-y-5">
+                    <div class="border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-xl p-6 hover:shadow-lg hover:border-blue-200/40 dark:hover:border-blue-500/40 transition-all duration-400 group fade-in-up" style="transition-delay: 0ms;">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200/60 dark:border-blue-800/50 flex items-center justify-center group-hover:bg-blue-800 dark:group-hover:bg-blue-600 transition-all duration-400">
+                                <i data-lucide="file-text" class="h-5 w-5 text-blue-800 dark:text-blue-400 group-hover:text-white transition-colors duration-400"></i>
+                            </div>
+                            <div class="flex-1 space-y-3">
+                                <h3 class="text-base font-semibold text-slate-900 dark:text-white leading-snug group-hover:text-blue-900 dark:group-hover:text-blue-300 transition-colors duration-300">Intrusion Detection of Service Disruption Attack for Industrial Electrical Drive System</h3>
+                                <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                                    <span class="text-sm text-slate-600 dark:text-slate-400">IEEE ICCCNT Conference, 2024</span>
+                                    <span class="text-slate-300 dark:text-slate-600">|</span>
+                                    <span class="inline-flex items-center rounded-full border border-slate-300 dark:border-slate-600 px-2.5 py-0.5 text-xs font-semibold text-slate-600 dark:text-slate-300">1st Author</span>
+                                </div>
+                                <a href="https://ieeexplore.ieee.org/abstract/document/10726120" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 disabled:pointer-events-none disabled:opacity-50 text-blue-800 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-slate-700 px-2 h-8 py-1">
+                                    View Paper <i data-lucide="external-link" class="ml-1.5 h-3.5 w-3.5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-xl p-6 hover:shadow-lg hover:border-blue-200/40 dark:hover:border-blue-500/40 transition-all duration-400 group fade-in-up" style="transition-delay: 100ms;">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200/60 dark:border-blue-800/50 flex items-center justify-center group-hover:bg-blue-800 dark:group-hover:bg-blue-600 transition-all duration-400">
+                                <i data-lucide="file-text" class="h-5 w-5 text-blue-800 dark:text-blue-400 group-hover:text-white transition-colors duration-400"></i>
+                            </div>
+                            <div class="flex-1 space-y-3">
+                                <h3 class="text-base font-semibold text-slate-900 dark:text-white leading-snug group-hover:text-blue-900 dark:group-hover:text-blue-300 transition-colors duration-300">Securing Electrical Drive Systems Against Man-in-the-Middle Attacks Using S-Box Optimized AES Encryption</h3>
+                                <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                                    <span class="text-sm text-slate-600 dark:text-slate-400">IEEE Access, 2025</span>
+                                    <span class="text-slate-300 dark:text-slate-600">|</span>
+                                    <span class="inline-flex items-center rounded-full border border-slate-300 dark:border-slate-600 px-2.5 py-0.5 text-xs font-semibold text-slate-600 dark:text-slate-300">2nd Author</span>
+                                    <span class="text-slate-300 dark:text-slate-600">|</span>
+                                    <span class="inline-flex items-center rounded-full border border-emerald-200/60 dark:border-emerald-800/60 bg-emerald-50 dark:bg-emerald-900/30 px-2.5 py-0.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400">IF: 3.6</span>
+                                </div>
+                                <a href="https://ieeexplore.ieee.org/abstract/document/11062323" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 disabled:pointer-events-none disabled:opacity-50 text-blue-800 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-slate-700 px-2 h-8 py-1">
+                                    View Paper <i data-lucide="external-link" class="ml-1.5 h-3.5 w-3.5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-xl p-6 hover:shadow-lg hover:border-blue-200/40 dark:hover:border-blue-500/40 transition-all duration-400 group fade-in-up" style="transition-delay: 200ms;">
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-900/30 border border-blue-200/60 dark:border-blue-800/50 flex items-center justify-center group-hover:bg-blue-800 dark:group-hover:bg-blue-600 transition-all duration-400">
+                                <i data-lucide="file-text" class="h-5 w-5 text-blue-800 dark:text-blue-400 group-hover:text-white transition-colors duration-400"></i>
+                            </div>
+                            <div class="flex-1 space-y-3">
+                                <h3 class="text-base font-semibold text-slate-900 dark:text-white leading-snug group-hover:text-blue-900 dark:group-hover:text-blue-300 transition-colors duration-300">Novel Knowledge Propagation Optimization (KPO) Algorithm for Grid-tied PV System</h3>
+                                <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                                    <span class="text-sm text-slate-600 dark:text-slate-400">Elsevier: Results in Engineering, 2025</span>
+                                    <span class="text-slate-300 dark:text-slate-600">|</span>
+                                    <span class="inline-flex items-center rounded-full border border-slate-300 dark:border-slate-600 px-2.5 py-0.5 text-xs font-semibold text-slate-600 dark:text-slate-300">1st Author</span>
+                                    <span class="text-slate-300 dark:text-slate-600">|</span>
+                                    <span class="inline-flex items-center rounded-full border border-emerald-200/60 dark:border-emerald-800/60 bg-emerald-50 dark:bg-emerald-900/30 px-2.5 py-0.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400">IF: 7.9</span>
+                                </div>
+                                <a href="https://www.sciencedirect.com/science/article/pii/S2590123025037004" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 disabled:pointer-events-none disabled:opacity-50 text-blue-800 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-slate-700 px-2 h-8 py-1">
+                                    View Paper <i data-lucide="external-link" class="ml-1.5 h-3.5 w-3.5"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="py-20 bg-white dark:bg-slate-900 pt-28 -mt-8 transition-colors duration-300">
+            <div class="max-w-5xl mx-auto px-6 lg:px-8">
+                <div class="fade-in-up">
+                    <h2 class="font-serif text-3xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight">Get in Touch</h2>
+                    <div class="w-12 h-0.5 bg-blue-800 dark:bg-blue-500 mb-10 rounded-full"></div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                    <div class="space-y-5 fade-in-up" style="transition-delay: 100ms;">
+                        <p class="text-slate-600 dark:text-slate-400 text-base leading-relaxed">
+                            Interested in collaborating on research, discussing ideas, or exploring opportunities? Feel free to reach out.
+                        </p>
+                        <div class="space-y-3">
+                            <a href="mailto:vanshoberoi2211@gmail.com" class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-400 transition-colors duration-200">
+                                <div class="w-9 h-9 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
+                                    <i data-lucide="mail" class="h-4 w-4 text-slate-500 dark:text-slate-400"></i>
+                                </div>
+                                vanshoberoi2211@gmail.com
+                            </a>
+                            <a href="https://www.linkedin.com/in/oberoi-vansh/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400 hover:text-blue-800 dark:hover:text-blue-400 transition-colors duration-200">
+                                <div class="w-9 h-9 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center">
+                                    <i data-lucide="linkedin" class="h-4 w-4 text-slate-500 dark:text-slate-400"></i>
+                                </div>
+                                linkedin.com/in/oberoi-vansh
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 shadow-sm rounded-xl fade-in-up" style="transition-delay: 200ms;">
+                        <div class="p-6">
+                            <form id="contact-form" class="space-y-4">
+                                <div class="space-y-1.5">
+                                    <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Name</label>
+                                    <input type="text" id="name" placeholder="Your name" required class="flex h-10 w-full rounded-md border bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 px-3 py-2 text-sm text-slate-900 dark:text-white ring-offset-white placeholder:text-slate-500 dark:placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-800/20 dark:focus-visible:ring-blue-500/40 focus-visible:border-blue-800/40 dark:focus-visible:border-blue-500/60 disabled:cursor-not-allowed disabled:opacity-50 transition-colors duration-200" />
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Email</label>
+                                    <input type="email" id="email" placeholder="your@email.com" required class="flex h-10 w-full rounded-md border bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 px-3 py-2 text-sm text-slate-900 dark:text-white ring-offset-white placeholder:text-slate-500 dark:placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-800/20 dark:focus-visible:ring-blue-500/40 focus-visible:border-blue-800/40 dark:focus-visible:border-blue-500/60 disabled:cursor-not-allowed disabled:opacity-50 transition-colors duration-200" />
+                                </div>
+                                <div class="space-y-1.5">
+                                    <label class="text-sm font-medium text-slate-700 dark:text-slate-300">Message</label>
+                                    <textarea id="message" placeholder="Your message..." rows="4" required class="flex w-full rounded-md border bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 px-3 py-2 text-sm text-slate-900 dark:text-white ring-offset-white placeholder:text-slate-500 dark:placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-800/20 dark:focus-visible:ring-blue-500/40 focus-visible:border-blue-800/40 dark:focus-visible:border-blue-500/60 disabled:cursor-not-allowed disabled:opacity-50 resize-none transition-colors duration-200"></textarea>
+                                </div>
+                                <button type="submit" id="submit-btn" class="inline-flex items-center justify-center rounded-lg text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-slate-900 dark:bg-blue-600 text-slate-50 hover:bg-slate-900/90 dark:hover:bg-blue-700 h-10 px-4 py-2 w-full">
+                                    <span id="btn-text">Send Message</span>
+                                    <i data-lucide="send" id="btn-icon" class="ml-2 h-4 w-4"></i>
+                                </button>
+                                <div id="success-toast" class="hidden mt-4 p-3 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/50 rounded-md text-sm text-center">
+                                    Message sent successfully! I'll get back to you soon.
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-10 bg-slate-900 dark:bg-slate-950 text-slate-400">
+        <div class="max-w-5xl mx-auto px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+                <div class="text-center sm:text-left">
+                    <p class="font-serif text-base font-semibold text-white mb-1">Vansh Oberoi</p>
+                    <p class="text-sm text-slate-500 dark:text-slate-600">© <span id="current-year"></span> All rights reserved.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="mailto:vanshoberoi2211@gmail.com" class="w-9 h-9 rounded-lg bg-slate-800 dark:bg-slate-900 flex items-center justify-center hover:bg-slate-700 dark:hover:bg-slate-800 transition-colors duration-200" title="Email">
+                        <i data-lucide="mail" class="h-4 w-4 text-slate-400 hover:text-white"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/oberoi-vansh/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-slate-800 dark:bg-slate-900 flex items-center justify-center hover:bg-slate-700 dark:hover:bg-slate-800 transition-colors duration-200" title="LinkedIn">
+                        <i data-lucide="linkedin" class="h-4 w-4 text-slate-400 hover:text-white"></i>
+                    </a>
+                    <a href="https://scholar.google.com/citations?user=4j_DlmwAAAAJ&hl=en" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-slate-800 dark:bg-slate-900 flex items-center justify-center hover:bg-slate-700 dark:hover:bg-slate-800 transition-colors duration-200" title="Google Scholar">
+                        <i data-lucide="graduation-cap" class="h-4 w-4 text-slate-400 hover:text-white"></i>
+                    </a>
+                    <a href="https://ieeexplore.ieee.org/author/192288351856711" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-lg bg-slate-800 dark:bg-slate-900 flex items-center justify-center hover:bg-slate-700 dark:hover:bg-slate-800 transition-colors duration-200" title="IEEE Author">
+                        <i data-lucide="book-open" class="h-4 w-4 text-slate-400 hover:text-white"></i>
+                    </a>
+                    <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' });" class="w-9 h-9 rounded-lg bg-slate-800 dark:bg-slate-900 flex items-center justify-center hover:bg-slate-700 dark:hover:bg-slate-800 transition-colors duration-200 ml-2" title="Back to top">
+                        <i data-lucide="arrow-up" class="h-4 w-4 text-slate-400"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+        
+        // Set dynamic year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // --- Dark Mode Logic ---
+        const themeToggleDarkIcons = document.querySelectorAll('#theme-toggle-dark-icon, #theme-toggle-dark-icon-mobile');
+        const themeToggleLightIcons = document.querySelectorAll('#theme-toggle-light-icon, #theme-toggle-light-icon-mobile');
+
+        // Change the icons inside the button based on previous settings
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            themeToggleLightIcons.forEach(icon => icon.classList.remove('hidden'));
+        } else {
+            themeToggleDarkIcons.forEach(icon => icon.classList.remove('hidden'));
+        }
+
+        const themeToggleBtns = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
+
+        themeToggleBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // toggle icons
+                themeToggleDarkIcons.forEach(icon => icon.classList.toggle('hidden'));
+                themeToggleLightIcons.forEach(icon => icon.classList.toggle('hidden'));
+
+                // if set via local storage previously
+                if (localStorage.getItem('color-theme')) {
+                    if (localStorage.getItem('color-theme') === 'light') {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('color-theme', 'dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('color-theme', 'light');
+                    }
+                // if NOT set via local storage previously
+                } else {
+                    if (document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('color-theme', 'light');
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('color-theme', 'dark');
+                    }
+                }
+            });
+        });
+
+        // --- Scroll Animations Setup ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+        document.querySelectorAll('.fade-in-up').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // --- Header Scroll Effects & Active Nav Links ---
+        const header = document.getElementById('main-header');
+        const progressBar = document.getElementById('scroll-progress');
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+
+        window.addEventListener('scroll', () => {
+            // Header Background
+            if (window.scrollY > 20) {
+                header.classList.add('bg-white/95', 'dark:bg-slate-900/95', 'backdrop-blur-sm', 'border-b', 'border-slate-200/80', 'dark:border-slate-800/80', 'shadow-sm');
+                header.classList.remove('bg-transparent');
+            } else {
+                header.classList.remove('bg-white/95', 'dark:bg-slate-900/95', 'backdrop-blur-sm', 'border-b', 'border-slate-200/80', 'dark:border-slate-800/80', 'shadow-sm');
+                header.classList.add('bg-transparent');
+            }
+
+            // Scroll Progress
+            const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+            progressBar.style.width = `${progress}%`;
+
+            // Active Section Highlight
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= sectionTop - 120) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('text-blue-800', 'dark:text-blue-400', 'font-medium', 'bg-blue-50/60', 'dark:bg-blue-900/30');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('text-blue-800', 'dark:text-blue-400', 'font-medium', 'bg-blue-50/60', 'dark:bg-blue-900/30');
+                }
+            });
+        });
+
+        // --- Mobile Menu Toggle ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            });
+        });
+
+        // --- Contact Form Submission ---
+        const contactForm = document.getElementById('contact-form');
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnIcon = document.getElementById('btn-icon');
+        const successToast = document.getElementById('success-toast');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // UI Loading state
+            submitBtn.disabled = true;
+            btnText.textContent = "Sending...";
+            btnIcon.style.display = "none";
+            successToast.classList.add('hidden');
+
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
+
+            // Simulate network delay (800ms)
+            setTimeout(() => {
+                const messages = JSON.parse(localStorage.getItem("contact_messages") || "[]");
+                messages.push({ ...formData, timestamp: new Date().toISOString() });
+                localStorage.setItem("contact_messages", JSON.stringify(messages));
+
+                // Reset UI
+                contactForm.reset();
+                submitBtn.disabled = false;
+                btnText.textContent = "Send Message";
+                btnIcon.style.display = "inline-block";
+                
+                // Show Success Toast
+                successToast.classList.remove('hidden');
+                setTimeout(() => {
+                    successToast.classList.add('hidden');
+                }, 4000);
+            }, 800);
+        });
+    </script>
+</body>
+</html>
